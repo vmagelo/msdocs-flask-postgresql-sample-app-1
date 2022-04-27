@@ -47,8 +47,7 @@ def details(id):
     from models import Restaurant, Review
     restaurant = Restaurant.query.where(Restaurant.id == id).first()
     reviews = Review.query.where(Review.restaurant==id)
-    return render_template('details.html', restaurant=restaurant, reviews=reviews, 
-        account=os.environ['STORAGE_ACCOUNT_NAME'], container=os.environ['STORAGE_CONTAINER_NAME'])
+    return render_template('details.html', restaurant=restaurant, reviews=reviews)
 
 @app.route('/create', methods=['GET'])
 def create_restaurant():
@@ -64,7 +63,7 @@ def add_restaurant():
         street_address = request.values.get('street_address')
         description = request.values.get('description')
     except (KeyError):
-        # Redisplay the restaurant entry form.
+        # Redisplay the question voting form.
         return render_template('add_restaurant.html', {
             'error_message': "You must include a restaurant name, address, and description",
         })
@@ -89,7 +88,7 @@ def add_review(id):
     except (KeyError):
         #Redisplay the question voting form.
         return render_template('add_review.html', {
-            'error_message': 'Review not added. Include at least name and rating for review.',
+            'error_message': "Error adding review",
         })
     else:
         review = Review()
